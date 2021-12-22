@@ -12,6 +12,8 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /**
  * This is main plugin loading function
  * Feel free to write your own compiler
@@ -20,7 +22,7 @@ W.loadPlugin(
 /* Mounting options */
 {
   "name": "windy-plugin-ozswell",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "davinchi",
   "repository": {
     "type": "git",
@@ -37,6 +39,8 @@ W.loadPlugin(
 '',
 /* Constructor */
 function () {
+  var _L$icon;
+
   var bcast = W.require('broadcast');
 
   var store = W.require('store');
@@ -47,7 +51,8 @@ function () {
 
   var _ = W.require('utils');
 
-  var map = W.require('map');
+  var _W$require = W.require('map'),
+      map = _W$require.map;
 
   var swell_obs = {
     'Rottnest': ['Rottnest', -32.0067, 115.5025, 'https://www.transport.wa.gov.au/imarine/coastaldata/tidesandwaves/live_gfx/RDW_POLD.gif', 'https://www.transport.wa.gov.au/imarine/coastaldata/tidesandwaves/live_gfx/RDW_Wave.gif'],
@@ -110,6 +115,21 @@ function () {
     'Denmark': ['Denmark', -35.0271, 117.3371, [observations['Cape-Naturaliste'], observations['Albany'], observations['Cape-Leeuwin']], [forecasts['Albany-Coast'], forecasts['Esperance-Coast'], forecasts['AccessG3']]],
     'Esperance': ['Esperance', -33.8914, 121.8335, [observations['Cape-Leeuwin'], observations['Albany'], observations['Esperance']], [forecasts['Esperance-Coast'], forecasts['Albany-Coast'], forecasts['AccessG3']]]
   };
+  var black_icon = L.icon({
+    className: 'resources-icon',
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-black.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [20, 30],
+    iconAnchor: [12, 30],
+    popupAnchor: [1, -34],
+    shadowSize: [30, 30]
+  });
+  var green_icon = L.icon((_L$icon = {
+    className: 'resources-icon',
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+    iconSize: [20, 30],
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png'
+  }, _defineProperty(_L$icon, "iconSize", [20, 30]), _defineProperty(_L$icon, "iconAnchor", [12, 30]), _defineProperty(_L$icon, "popupAnchor", [1, -34]), _defineProperty(_L$icon, "shadowSize", [30, 30]), _L$icon));
 
   var remove_url = function remove_url(spot_forecast) {
     var s_url = spot_forecast.split(',')[0];
@@ -233,7 +253,7 @@ function () {
     }
 
     var swell_marker = L.marker([lat, lon], {
-      icon: map.myMarkers.myLocationIcon,
+      icon: black_icon,
       zIndexOffset: -300
     }).addTo(map);
     swell_marker.bindTooltip("<h5>" + swell_name + "</h5>");
@@ -275,9 +295,9 @@ function () {
 
   var createObsPopup = function createObsPopup(obs_name, obs_lat, obs_lon, obs_link) {
     var obs_marker = L.marker([obs_lat, obs_lon], {
-      icon: map.myMarkers.icon,
+      icon: green_icon,
       zIndexOffset: -300,
-      opacity: 0.5
+      opacity: 1
     }).addTo(map);
     obs_marker.bindTooltip("<h5>obs: " + obs_name + "</h5>");
     obs_marker.bindPopup('<img src = ' + obs_link + '/>' + '<br>', {
@@ -288,7 +308,7 @@ function () {
 
   var createSpotPopup = function createSpotPopup(spot_name, spot_lat, spot_lon, spot_obs, spot_forecast) {
     var marker = L.marker([spot_lat, spot_lon], {
-      icon: map.myMarkers.icon,
+      icon: green_icon,
       zIndexOffset: -300,
       iconSize: 50,
       opacity: 1
