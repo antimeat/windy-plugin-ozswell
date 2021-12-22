@@ -20,7 +20,7 @@ W.loadPlugin(
 /* Mounting options */
 {
   "name": "windy-plugin-ozswell",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "davinchi",
   "repository": {
     "type": "git",
@@ -117,6 +117,7 @@ function () {
     return url;
   };
 
+  var markers = null;
   var obs_markers = null;
   var swell_markers = null;
   var swell_polylines = null;
@@ -312,29 +313,26 @@ function () {
     });
   };
 
-  bcast.on('rqstClose', function () {
-    if (!obs_markers) {
+  bcast.on("pluginClosed", function (e) {
+    if (e == "detail") {
       obs_markers = Object.keys(observations).map(function (k, i) {
         return createObsPopup(observations[k][0], observations[k][1], observations[k][2], observations[k][3]);
       });
       bcast.on('redrawFinished', makeObsMarkers);
-    }
-
-    if (!swell_markers) {
       swell_markers = Object.keys(swell_obs).map(function (k, i) {
         return createSwellMarkers(swell_obs[k][0], swell_obs[k][1], swell_obs[k][2], swell_obs[k][3], swell_obs[k][4]);
       });
       bcast.on('redrawFinished', makeSwellMarkers);
-    }
 
-    if (!swell_polylines) {
-      swell_polylines = Object.keys(swell_obs).map(function (k, i) {
-        return createSwellPolylines(swell_obs[k][0], swell_obs[k][1], swell_obs[k][2], swell_obs[k][3], swell_obs[k][4]);
-      });
-      bcast.on('redrawFinished', makeSwellPolylines);
-    }
+      if (!swell_polylines) {
+        swell_polylines = Object.keys(swell_obs).map(function (k, i) {
+          return createSwellPolylines(swell_obs[k][0], swell_obs[k][1], swell_obs[k][2], swell_obs[k][3], swell_obs[k][4]);
+        });
+        bcast.on('redrawFinished', makeSwellPolylines);
+      }
 
-    console.log('detail closed');
+      console.log('detail closed');
+    }
   });
 
   this.onopen = function () {
