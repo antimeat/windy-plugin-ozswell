@@ -357,7 +357,9 @@
 
 			swell_marker.bindTooltip("<h5>" + swell_name + "</h5>");
 
-			swell_marker.bindPopup('<img src = ' + swell_history + '>', {
+            swell_marker.bindPopup(
+                '<img src=' + swell_current + ' style="opacity: 1;">' +
+                '<img src=' + swell_history + ' style="opacity: 1;">', {
 				minWidth: 580,
 			});
 
@@ -497,12 +499,12 @@
 		//	this.onopen method is called when your plugin is being opened
         this.onopen = () => {
 
-			/*
+			/**
 			if (!markers) {
 				markers = Object.keys(spot_locations).map((k,i) => createSpotPopup(spot_locations[k][0],spot_locations[k][1],spot_locations[k][2],spot_locations[k][3],spot_locations[k][4]));
 				bcast.on('redrawFinished', makeMarkers);
 			}
-			*/
+			**/
 			if (!obs_markers) {
 				obs_markers = Object.keys(observations).map((k,i) => createObsPopup(observations[k][0],observations[k][1],observations[k][2],observations[k][3]));
 				bcast.on('redrawFinished', makeObsMarkers);
