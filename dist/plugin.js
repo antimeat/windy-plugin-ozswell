@@ -22,7 +22,7 @@ W.loadPlugin(
 /* Mounting options */
 {
   "name": "windy-plugin-ozswell",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "author": "davinchi",
   "repository": {
     "type": "git",
@@ -118,6 +118,15 @@ function () {
   var black_icon = L.icon({
     className: 'resources-icon',
     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-black.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [20, 30],
+    iconAnchor: [12, 30],
+    popupAnchor: [1, -34],
+    shadowSize: [30, 30]
+  });
+  var bue_icon = L.icon({
+    className: 'resources-icon',
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
     iconSize: [20, 30],
     iconAnchor: [12, 30],
@@ -257,8 +266,8 @@ function () {
       zIndexOffset: -300
     }).addTo(map);
     swell_marker.bindTooltip("<h5>" + swell_name + "</h5>");
-    swell_marker.bindPopup('<img src = ' + swell_history + '>', {
-      minWidth: 580
+    swell_marker.bindPopup('<style> div.container {display:inline-block;} p {text-align:center;} </style>' + '<div class = "container">' + '<img src=' + swell_current + ' style="float:left; opacity: 1; width:45%;"/>' + '<img src=' + swell_history + ' style="float:right; opacity: 1; width:55%;"/>' + '</div>', {
+      minWidth: 800
     });
     return swell_marker;
   };
@@ -300,8 +309,8 @@ function () {
       opacity: 1
     }).addTo(map);
     obs_marker.bindTooltip("<h5>obs: " + obs_name + "</h5>");
-    obs_marker.bindPopup('<img src = ' + obs_link + '/>' + '<br>', {
-      minWidth: 580
+    obs_marker.bindPopup('<img src = ' + obs_link + ' style="width:100%;"/>' + '<br>', {
+      minWidth: 700
     });
     return obs_marker;
   };
