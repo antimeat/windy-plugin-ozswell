@@ -1,6 +1,6 @@
 {
   "name": "windy-plugin-ozswell",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Windy plugin to overlay swell observations in west oz",
   "main": "dist/plugin.js",
   "scripts": {
